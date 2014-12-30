@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplest_libvlc_player", "simplest_libvlc_player\simplest_libvlc_player.vcxproj", "{06BD372E-B184-4C59-91EC-9056C6F83326}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "playerGUI", "playerGUI\playerGUI.vcxproj", "{E5684FD2-C4FF-4A46-8588-0769205BF129}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplest_libvlc_streamer", "simplest_libvlc_streamer\simplest_libvlc_streamer.vcxproj", "{597A3491-D12B-41F9-BF2D-1BFBDA8D0602}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06BD372E-B184-4C59-91EC-9056C6F83326}.Debug|Win32.ActiveCfg = Debug|Win32
+		{06BD372E-B184-4C59-91EC-9056C6F83326}.Debug|Win32.Build.0 = Debug|Win32
+		{06BD372E-B184-4C59-91EC-9056C6F83326}.Release|Win32.ActiveCfg = Release|Win32
+		{06BD372E-B184-4C59-91EC-9056C6F83326}.Release|Win32.Build.0 = Release|Win32
+		{E5684FD2-C4FF-4A46-8588-0769205BF129}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5684FD2-C4FF-4A46-8588-0769205BF129}.Debug|Win32.Build.0 = Debug|Win32
+		{E5684FD2-C4FF-4A46-8588-0769205BF129}.Release|Win32.ActiveCfg = Release|Win32
+		{E5684FD2-C4FF-4A46-8588-0769205BF129}.Release|Win32.Build.0 = Release|Win32
+		{597A3491-D12B-41F9-BF2D-1BFBDA8D0602}.Debug|Win32.ActiveCfg = Debug|Win32
+		{597A3491-D12B-41F9-BF2D-1BFBDA8D0602}.Debug|Win32.Build.0 = Debug|Win32
+		{597A3491-D12B-41F9-BF2D-1BFBDA8D0602}.Release|Win32.ActiveCfg = Release|Win32
+		{597A3491-D12B-41F9-BF2D-1BFBDA8D0602}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
