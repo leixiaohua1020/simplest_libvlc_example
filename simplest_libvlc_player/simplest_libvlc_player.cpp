@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
   
      //Create a new item
 	 //Method 1:
-     //m = libvlc_media_new_location (inst, "file:///cuc_ieschool.flv");
+     //m = libvlc_media_new_location (inst, "file:///F:\\movie\\cuc_ieschool.flv");
 	 //Screen Capture
 	 //m = libvlc_media_new_location (inst, "screen://");
 	 //Method 2:
@@ -50,8 +50,6 @@ int main(int argc, char* argv[])
  
      // play the media_player
      libvlc_media_player_play (mp);
-     // Pause, Get some param 
-	 libvlc_media_player_pause(mp);
 
 	 //wait until the tracks are created
 	 _sleep (wait_time);
