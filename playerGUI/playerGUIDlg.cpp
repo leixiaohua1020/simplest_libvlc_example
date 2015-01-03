@@ -93,6 +93,7 @@ BEGIN_MESSAGE_MAP(CplayerGUIDlg, CDialogEx)
 	ON_COMMAND(ID_WEBSITE, &CplayerGUIDlg::OnWebsite)
 	ON_WM_TIMER()
 	ON_WM_HSCROLL()
+	ON_BN_CLICKED(ID_INFO, &CplayerGUIDlg::OnBnClickedInfo)
 END_MESSAGE_MAP()
 
 
@@ -128,6 +129,7 @@ BOOL CplayerGUIDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	m_progress.SetRange(0,100);
 	SystemClear();
 	/* Load the VLC engine */
 	libvlc_inst = libvlc_new (0, NULL);
@@ -212,27 +214,34 @@ void CplayerGUIDlg::OnBnClickedStart()
 	HWND screen_hwnd=NULL;
 	screen_hwnd = this->GetDlgItem(IDC_SCREEN)->m_hWnd; 
 
+	if(playerstate!=STATE_PREPARE){
+		AfxMessageBox(_T("Media is playing now."));
+		return;
+	}
+
+
      /* Create a new item */
      //m = libvlc_media_new_location (libvlc_inst, "http://mycool.movie.com/test.mov");
 
      libvlc_m = libvlc_media_new_path (libvlc_inst, char_url);
-        
+
      /* Create a media player playing environement */
      libvlc_mp = libvlc_media_player_new_from_media (libvlc_m);
      
      /* No need to keep the media now */
      libvlc_media_release (libvlc_m);
  
-     /* or on windows */
+    //on windows
      libvlc_media_player_set_hwnd (libvlc_mp,screen_hwnd);
  
      /* play the media_player */
-     libvlc_media_player_play (libvlc_mp);
+     int x=libvlc_media_player_play (libvlc_mp);
     
      //_sleep (30000); /* Let it play a bit */
     
 
 	playerstate=STATE_PLAY;
+	SetBtn(STATE_PLAY);
 	SetTimer(1,1000,NULL);
 }
 
@@ -258,6 +267,7 @@ void CplayerGUIDlg::OnBnClickedStop()
 		libvlc_media_player_release (libvlc_mp);
 		KillTimer(1);
 	}
+	
 	SystemClear();
 }
 
@@ -303,14 +313,28 @@ void CplayerGUIDlg::OnBnClickedFilebrowse()
 
 void CplayerGUIDlg::SystemClear()
 {
+	SetBtn(STATE_PREPARE);
 	playerstate=STATE_PREPARE;
 	m_curtime.SetWindowText(_T("00:00:00"));
 	m_duration.SetWindowText(_T("00:00:00"));
 	libvlc_mp=NULL;
 	libvlc_m=NULL;
-	m_progress.SetRange(0,100);
+	m_progress.SetPos(0);
 }
 
+void CplayerGUIDlg::SetBtn(PlayerState state){
+	if(state==STATE_PREPARE){
+		GetDlgItem(ID_START)->EnableWindow(TRUE);
+		GetDlgItem(ID_PAUSE)->EnableWindow(FALSE);
+		GetDlgItem(ID_STOP)->EnableWindow(FALSE);
+		GetDlgItem(ID_INFO)->EnableWindow(FALSE);
+	}else{
+		GetDlgItem(ID_START)->EnableWindow(FALSE);
+		GetDlgItem(ID_PAUSE)->EnableWindow(TRUE);
+		GetDlgItem(ID_STOP)->EnableWindow(TRUE);
+		GetDlgItem(ID_INFO)->EnableWindow(TRUE);
+	}
+}
 
 void CplayerGUIDlg::UNICODE_to_UTF8(CStringW& unicodeString, std::string& str)
 {
@@ -400,3 +424,25 @@ void CplayerGUIDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }
+
+
+void CplayerGUIDlg::OnBnClickedInfo()
+{
+	CString infostr;
+	infostr.AppendFormat(_T("========Video Information========\r\n"));
+	unsigned video_w=0,video_h=0;
+	float framerate=0;
+	libvlc_video_get_size(libvlc_mp,0,&video_w,&video_h);
+	framerate=libvlc_media_player_get_fps(libvlc_mp);
+	infostr.AppendFormat(_T("Video Width:%d\r\nVideo Height:%d\r\nVideo Framerate:%f\r\n")
+		,video_w,video_h,framerate);
+
+	infostr.AppendFormat(_T("========Audio Information========\r\n"));
+	int channel=0;
+	channel=libvlc_audio_get_channel(libvlc_mp);
+	infostr.AppendFormat(_T("Audio Channels:%d\r\n"),channel);
+
+	AfxMessageBox(infostr,MB_ICONINFORMATION);
+}
+
+

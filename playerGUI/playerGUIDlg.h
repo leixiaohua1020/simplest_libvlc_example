@@ -69,12 +69,13 @@ public:
 	CSliderCtrl m_progress;
 	CEdit m_url;
 	void SystemClear();
+	void SetBtn(PlayerState state);
 
 	void UNICODE_to_UTF8(CStringW& unicodeString, std::string& str);
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnDestroy();
 	afx_msg void OnWebsite();
-//	CSliderCtrl m_volume;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnBnClickedInfo();
 };

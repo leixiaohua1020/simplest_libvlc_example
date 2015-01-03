@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 		"profile=baseline,tune=zerolatency},vb=512,"                              \
 		"acodec=mpga,ab=64,channels=2}"                                           \
 		":duplicate{dst=display,dst=standard{access=udp,mux=ts,dst=233.233.233.233:6666}}";
-	const char *media_name = "Foo";
+	const char *media_name = "Lei's test";
 
 	//Screen Capture
 	//url = "screen://";
