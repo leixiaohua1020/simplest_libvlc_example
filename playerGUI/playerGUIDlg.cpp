@@ -381,34 +381,41 @@ void CplayerGUIDlg::OnWebsite()
 
 void CplayerGUIDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	CString curtimestr,durationstr;
-	int curtime;
-	int duration;
-	int tns, thh, tmm, tss;
-	int progress;
-	//ms
-	curtime = libvlc_media_player_get_time(libvlc_mp);
-	if(curtime!=0){
-		//change to second
-		tns = curtime/1000;
-		thh  = tns / 3600;
-		tmm  = (tns % 3600) / 60;
-		tss  = (tns % 60);
-		curtimestr.Format(_T("%02d:%02d:%02d"),thh,tmm,tss);
-		m_curtime.SetWindowText(curtimestr);
-	}
-	duration  = libvlc_media_player_get_length(libvlc_mp);
-	if(duration!=0){
-		tns = duration/1000;
-		thh  = tns / 3600;
-		tmm  = (tns % 3600) / 60;
-		tss  = (tns % 60);
-		durationstr.Format(_T("%02d:%02d:%02d"),thh,tmm,tss);
-		m_duration.SetWindowText(durationstr);
+	if (nIDEvent == 1){
+		CString curtimestr,durationstr;
+		int curtime;
+		int duration;
+		int tns, thh, tmm, tss;
+		int progress;
+		//ms
+		curtime = libvlc_media_player_get_time(libvlc_mp);
+		if(curtime!=0){
+			//change to second
+			tns = curtime/1000;
+			thh  = tns / 3600;
+			tmm  = (tns % 3600) / 60;
+			tss  = (tns % 60);
+			curtimestr.Format(_T("%02d:%02d:%02d"),thh,tmm,tss);
+			m_curtime.SetWindowText(curtimestr);
+		}
+		duration  = libvlc_media_player_get_length(libvlc_mp);
+		if(duration!=0){
+			tns = duration/1000;
+			thh  = tns / 3600;
+			tmm  = (tns % 3600) / 60;
+			tss  = (tns % 60);
+			durationstr.Format(_T("%02d:%02d:%02d"),thh,tmm,tss);
+			m_duration.SetWindowText(durationstr);
 
-		progress=curtime*100/duration;
-		m_progress.SetPos(progress);
+			progress=curtime*100/duration;
+			m_progress.SetPos(progress);
+		}
 	}
+
+	//Stop in the end
+	if(libvlc_media_player_get_state(libvlc_mp)==libvlc_Ended)
+		OnBnClickedStop();
+
 
 	CDialogEx::OnTimer(nIDEvent);
 }
@@ -416,12 +423,13 @@ void CplayerGUIDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CplayerGUIDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	float posf=0.0;
-	if(nSBCode==SB_THUMBPOSITION){
-		posf=(float)nPos/100.0;
-		libvlc_media_player_set_position(libvlc_mp,posf);
+	if (pScrollBar->GetSafeHwnd() == m_progress.GetSafeHwnd()){
+		float posf=0.0;
+		if(nSBCode==SB_THUMBPOSITION){
+			posf=(float)nPos/100.0;
+			libvlc_media_player_set_position(libvlc_mp,posf);
+		}
 	}
-
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
